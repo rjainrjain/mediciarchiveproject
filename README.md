@@ -11,7 +11,9 @@ Automator scripts for the Medici Archive Project.
 7. Finally, go back to the script and click the play button right below "Run AppleScript." It should start uploading automatically. If you need to stop the script at any point, just press the square stop button next to the play button.
    
 Additional notes:
+
 You may need to watch the MIA window in case any errors pop up that aren't automatically handled by the script. If you press "Close" quickly enough, the script should keep running fine.
+
 What to do if the script crashes: check for the following. If some images show up as having been uploaded on the website, but haven't been moved to the already-uploaded folder on your computer, move those images manually to the already-uploaded folder and then restart the script. Or, if some images have been moved to the already-uploaded folder but haven't been uploaded, just manually upload those and then restart the script. Otherwise, you can restart the script immediately. 
 
 
