@@ -2,7 +2,7 @@
 Automator scripts for the Medici Archive Project.
 
 -- For the MIA Upload script (currently only for Mac): 
-1. Download this code (click the big green "Code" button and click "Download ZIP") and open it once it downloads. It should open in the Automator application.
+1. Download this code (click the big green "Code" button and click "Download ZIP") and open the MIA-Upload.workflow file once it downloads. It should open in the Automator application.
 2. Have two folders, one for images that haven't been uploaded yet, and one for images that have been uploaded already.
 3. Change the existing file path on the line starting with "property uploadFolder" to the file path to your folder for not-yet-uploaded images. (A file path looks like this, for example: "/Users/phoebeprice/Desktop/MDP 518/todo". You can get the file path for your folder by right-clicking on your folder, clicking "Get Info", right-clicking on what's written after "Where: ", and clicking "Copy as Pathname".)
 4. Do the same for the file path to the folder for already uploaded images below for the line starting with "property alreadyUploadedFolder".
