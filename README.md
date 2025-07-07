@@ -16,4 +16,4 @@ You may need to watch the MIA window in case any errors pop up that aren't autom
 
 What to do if the script crashes: check for the following. If some images show up as having been uploaded on the website, but haven't been moved to the already-uploaded folder on your computer, move those images manually to the already-uploaded folder and then restart the script. Or, if some images have been moved to the already-uploaded folder but haven't been uploaded, just manually upload those and then restart the script. Otherwise, you can restart the script immediately. 
 
-
+If you get some kind of error when trying to start the script, click anywhere in the code window and press Command-Z to undo any accidental changes to the code. 
