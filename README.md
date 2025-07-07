@@ -1,5 +1,5 @@
 # mediciarchiveproject
-Automator scripts for the Medici Archive Project.
+Automator scripts for the Medici Archive Project by Rijul Jain.
 
 -- For the MIA Upload script (currently only for Mac): 
 1. Download this code (click the big green "Code" button and click "Download ZIP") and open the MIA-Upload.workflow file once it downloads. It should open in the Automator application.
