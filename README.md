@@ -7,8 +7,9 @@ Automator scripts for the Medici Archive Project by Rijul Jain.
 3. Change the existing file path on the line starting with "property uploadFolder" to the file path to your folder for not-yet-uploaded images. (A file path looks like this, for example: "/Users/phoebeprice/Desktop/MDP 518/todo". You can get the file path for your folder by right-clicking on your folder, clicking "Get Info", right-clicking on what's written after "Where: ", and clicking "Copy as Pathname".)
 4. Do the same for the file path to the folder for already uploaded images below for the line starting with "property alreadyUploadedFolder".
 5. On the MIA Upload page, make sure you've manually started the upload with enough images that there's at least one full page of images. 
-6. On the MIA Upload page, click "Add files to upload" and then "CHOOSE IMAGES" and make sure the folder that comes up is your folder for not-yet-uploaded images. 
-7. Finally, go back to the script and click the play button right below "Run AppleScript." It should start uploading automatically. If you need to stop the script at any point, just press the square stop button next to the play button.
+6. On the MIA Upload page, click "Add files to upload" and then "CHOOSE IMAGES" and make sure the folder that comes up is your folder for not-yet-uploaded images.
+7. On the MIA Upload page, press Command+Shift+Minus two or three times to zoom out the webpage view. This is so that all the buttons the script needs will be in view without scrolling the page.
+8. Finally, go back to the script and click the play button right below "Run AppleScript." It should start uploading automatically. If you need to stop the script at any point, just press the square stop button next to the play button.
    
 Additional notes:
 
