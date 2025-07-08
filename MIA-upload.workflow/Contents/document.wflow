@@ -51,7 +51,109 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>-- .........................................................................-- MIA Upload script, by Rijul Jain, version 7 July 2025. -- Instructions:-- 1. Have two folders, one for images that haven't been uploaded yet, and one for images that have been uploaded already.-- 2. Change the existing file path on the line starting with "property uploadFolder" below to the file path to your folder for not-yet-uploaded images. (A file path looks like this, for example: "/Users/phoebeprice/Desktop/MDP 518/todo". You can get the file path for your folder by right-clicking on your folder, clicking "Get Info", right-clicking on what's written after "Where: ", and clicking "Copy as Pathname".)-- 3. Do the same for the file path to the folder for already uploaded images below for the alreadyUploadedFolder property. (See the "CHANGE THIS PATH" comments below.)-- 4. On the MIA Upload page, make sure you've manually started the upload with enough images that there's at least one full page of images. -- 5. On the MIA Upload page, click "Add files to upload" and then "CHOOSE IMAGES" and make sure the folder that comes up is your folder for not-yet-uploaded images. -- 6. Finally, go back to this script and click the play button right below "Run AppleScript." It should start uploading automatically. If you need to stop the script at any point, just press the square stop button next to the play button. -- Additional notes:-- You may need to watch the MIA window in case any errors pop up that aren't automatically handled by the script. If you press "Close" quickly enough, the script should keep running fine.-- What to do if the script crashes: check for the following. If some images show up as having been uploaded on the website, but haven't been moved to the already-uploaded folder on your computer, move those images manually to the already-uploaded folder and then restart the script. Or, if some images have been moved to the already-uploaded folder but haven't been uploaded, just manually upload those and then restart the script. Otherwise, you can restart the script immediately. — ..........................................................................-- !!!! CHANGE THIS PATH !!!!property uploadFolder : POSIX file "/Users/phoebeprice/Desktop/MDP 518/todo" as alias-- !!!! CHANGE THIS PATH !!!!property alreadyUploadedFolder : POSIX file "/Users/phoebeprice/Desktop/MDP 518/done" as aliasproperty batchSize : 20on run {input, parameters}		set fileList to list folder uploadFolder without invisibles	set totalFiles to count of fileList	set totalBatches to (totalFiles + batchSize - 1) div batchSize	set startIndex to 1		-- PREVIOUS		tell application "System Events"			tell process "Safari"				try					tell static text "Previous" of UI element "Previous" of group 2 of group 1 of group 8 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"						set {pxPosition, pyPosition} to position						set {pxSize, pySize} to size					end tell					-- modify offsets if hot spot is not centered:					click at {pxPosition + (pxSize div 2), pyPosition + (pySize div 2)}				end try								delay 0.2				keystroke return			end tell		end tell				delay 0.2				-- CLOSE		tell application "System Events"			tell process "Safari"				try					tell button "CLOSE" of group 27 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"						set {lxPosition, lyPosition} to position						set {lxSize, lySize} to size					end tell					-- modify offsets if hot spot is not centered:					click at {lxPosition + (lxSize div 2), lyPosition + (lySize div 2)}				end try												keystroke return			end tell		end tell				delay 0.2		repeat with batchIndex from 1 to totalBatches		set endIndex to startIndex + batchSize - 1		if endIndex &gt; totalFiles then set endIndex to totalFiles				-- Click "Add files to upload"		tell application "Safari" to activate		delay 1				-- ADD FILES TO UPLOAD		tell application "System Events"			tell process "Safari"				set theWindow to window "MIA - Medici Interactive Archive"								click static text " Add files to upload" of group 7 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"							end tell		end tell				-- CHOOSE IMAGES		tell application "System Events"			tell process "Safari"				try					tell static text "CHOOSE IMAGES" of group 1 of group 1 of group 28 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"						set {cxPosition, cyPosition} to position						set {cxSize, cySize} to size					end tell					-- modify offsets if hot spot is not centered:					click at {cxPosition + (cxSize div 2), cyPosition + (cySize div 2)}				end try							end tell		end tell				delay 0.5 -- wait for Finder file dialog				-- Ensure Safari and the file dialog window are active		tell application "System Events"			tell process "Safari"				-- Make Safari frontmost to ensure it has focus				set frontmost to true								-- Find the file dialog window (that Safari opened)				tell window 1					-- Click the first file (assume files are listed in rows)					keystroke (ASCII character 31) -- Down Arrow key to start from the correct file										-- Hold down Shift to start multi-selection					key down shift										-- Select the next 29 files using the Down Arrow key					repeat with i from 1 to 19						keystroke (ASCII character 31) -- Down Arrow key						delay 0.1					end repeat										-- Release Shift after selection					key up shift				end tell								-- Optionally, press Return to confirm file selection and close the dialog				keystroke return				delay 1			end tell		end tell				-- UPLOAD		tell application "System Events"			tell process "Safari"				try					tell button "UPLOAD" of group 1 of group 71 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"						set {uxPosition, uyPosition} to position						set {uxSize, uySize} to size					end tell					-- modify offsets if hot spot is not centered:					click at {uxPosition + (uxSize div 2), uyPosition + (uySize div 2)}				end try							end tell		end tell				-- Wait for upload to complete (adjust delay as needed)		delay 12				-- PREVIOUS		tell application "System Events"			tell process "Safari"				try					tell static text "Previous" of UI element "Previous" of group 2 of group 1 of group 8 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"						set {pxPosition, pyPosition} to position						set {pxSize, pySize} to size					end tell					-- modify offsets if hot spot is not centered:					click at {pxPosition + (pxSize div 2), pyPosition + (pySize div 2)}				end try								delay 0.2				keystroke return			end tell		end tell				delay 0.2				-- CLOSE		tell application "System Events"			tell process "Safari"				try					tell button "CLOSE" of group 27 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"						set {lxPosition, lyPosition} to position						set {lxSize, lySize} to size					end tell					-- modify offsets if hot spot is not centered:					click at {lxPosition + (lxSize div 2), lyPosition + (lySize div 2)}				end try												keystroke return			end tell		end tell				delay 0.2						-- MOVE UPLOADED FILES TO OTHER FOLDER		set sourceFolder to uploadFolder as alias		set destinationFolder to alreadyUploadedFolder as alias				tell application "Finder"			-- Get a list of files in the source folder			set fileList to every file of sourceFolder						-- Loop through the first 30 files (or fewer if there are not that many)			repeat with i from 1 to 20				--(min(30, count of fileList))				set currentFile to item i of fileList				move currentFile to destinationFolder			end repeat		end tell				delay 1			end repeat	end run-- Helper function to get the minimum of two numberson min(x, y)	if x &lt; y then		return x	else		return y	end ifend min...</string>
+					<string>-- Ask user for the "to-do" folder and the "uploaded" folderset uploadFolder to choose folder with prompt "Select the folder containing images to upload:"set alreadyUploadedFolder to choose folder with prompt "Select the folder for already uploaded images:"-- Convert folder paths to POSIX pathsset uploadFolder to POSIX path of uploadFolderset alreadyUploadedFolder to POSIX path of alreadyUploadedFolder-- Display the selected folder paths in a dialog box for confirmationdisplay dialog "Todo Folder: " &amp; uploadFolder &amp; return &amp; "Uploaded Folder: " &amp; alreadyUploadedFolderreturn {uploadFolder, alreadyUploadedFolder}</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>8D5D5D2D-B9D0-4330-B79B-4B7532B3B25E</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>63EB1866-EE83-4DBF-8333-CD7AF525426E</string>
+				<key>UUID</key>
+				<string>E25DF7F3-B967-4D71-AAA0-B79D9F1FF4BB</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<integer>1</integer>
+				<key>location</key>
+				<string>320.000000:247.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>property batchSize : 20on run {input, parameters}		set uploadFolder to item 1 of input	set alreadyUploadedFolder to item 2 of input		set fileList to list folder uploadFolder without invisibles		set totalFiles to count of fileList		set totalBatches to (totalFiles + batchSize - 1) div batchSize		set startIndex to 1		-- PREVIOUS		tell application "System Events"				tell process "Safari"						try								tell static text "Previous" of UI element "Previous" of group 2 of group 1 of group 8 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"										set {pxPosition, pyPosition} to position										set {pxSize, pySize} to size									end tell								-- modify offsets if hot spot is not centered:								click at {pxPosition + (pxSize div 2), pyPosition + (pySize div 2)}							end try												delay 0.2					end tell			end tell				delay 0.2				-- CLOSE		tell application "System Events"				tell process "Safari"						try								tell button "CLOSE" of group 27 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"										set {lxPosition, lyPosition} to position										set {lxSize, lySize} to size									end tell								-- modify offsets if hot spot is not centered:								click at {lxPosition + (lxSize div 2), lyPosition + (lySize div 2)}							end try					end tell			end tell				delay 0.2				repeat with batchIndex from 1 to totalBatches				set endIndex to startIndex + batchSize - 1				if endIndex &gt; totalFiles then set endIndex to totalFiles								-- Click "Add files to upload"				tell application "Safari" to activate				delay 1								-- ADD FILES TO UPLOAD				tell application "System Events"						tell process "Safari"								set theWindow to window "MIA - Medici Interactive Archive"																click static text " Add files to upload" of group 7 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"															end tell					end tell								-- CHOOSE IMAGES				tell application "System Events"						tell process "Safari"								try										tell static text "CHOOSE IMAGES" of group 1 of group 1 of group 28 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"												set {cxPosition, cyPosition} to position												set {cxSize, cySize} to size											end tell										-- modify offsets if hot spot is not centered:										click at {cxPosition + (cxSize div 2), cyPosition + (cySize div 2)}									end try															end tell					end tell								delay 0.5 -- wait for Finder file dialog								-- Ensure Safari and the file dialog window are active				tell application "System Events"						tell process "Safari"								-- Make Safari frontmost to ensure it has focus								set frontmost to true																-- Find the file dialog window (that Safari opened)								tell window 1										-- Click the first file (assume files are listed in rows)										keystroke (ASCII character 31) -- Down Arrow key to start from the correct file																				-- Hold down Shift to start multi-selection										key down shift																				-- Select the next 29 files using the Down Arrow key										repeat with i from 1 to 19												keystroke (ASCII character 31) -- Down Arrow key												delay 0.1											end repeat																				-- Release Shift after selection										key up shift									end tell																-- Optionally, press Return to confirm file selection and close the dialog								keystroke return								delay 1							end tell					end tell								-- UPLOAD				tell application "System Events"						tell process "Safari"								try										tell button "UPLOAD" of group 1 of group 71 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"												set {uxPosition, uyPosition} to position												set {uxSize, uySize} to size											end tell										-- modify offsets if hot spot is not centered:										click at {uxPosition + (uxSize div 2), uyPosition + (uySize div 2)}									end try															end tell					end tell								-- Wait for upload to complete (adjust delay as needed)				delay 12								-- PREVIOUS				tell application "System Events"						tell process "Safari"								try										tell static text "Previous" of UI element "Previous" of group 2 of group 1 of group 8 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"												set {pxPosition, pyPosition} to position												set {pxSize, pySize} to size											end tell										-- modify offsets if hot spot is not centered:										click at {pxPosition + (pxSize div 2), pyPosition + (pySize div 2)}									end try																delay 0.2								keystroke return							end tell					end tell								delay 0.2								-- CLOSE				tell application "System Events"						tell process "Safari"								try										tell button "CLOSE" of group 27 of UI element 1 of scroll area 1 of group 1 of group 1 of tab group 1 of splitter group 1 of window "MIA - Medici Interactive Archive"												set {lxPosition, lyPosition} to position												set {lxSize, lySize} to size											end tell										-- modify offsets if hot spot is not centered:										click at {lxPosition + (lxSize div 2), lyPosition + (lySize div 2)}									end try																								keystroke return							end tell					end tell								delay 0.2												-- MOVE UPLOADED FILES TO OTHER FOLDER				set sourceFolder to uploadFolder as alias				set destinationFolder to alreadyUploadedFolder as alias								tell application "Finder"						-- Get a list of files in the source folder						set fileList to every file of sourceFolder												-- Loop through the first 30 files (or fewer if there are not that many)						repeat with i from 1 to batchSize								--(min(30, count of fileList))								set currentFile to item i of fileList								move currentFile to destinationFolder							end repeat					end tell								delay 1							end repeat			end run-- Helper function to get the minimum of two numberson min(x, y)		if x &lt; y then				return x			else				return y			end if	end min</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -105,7 +207,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>320.000000:776.000000</string>
+				<string>320.000000:787.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -114,7 +216,15 @@ end run</string>
 		</dict>
 	</array>
 	<key>connectors</key>
-	<dict/>
+	<dict>
+		<key>1047B3C1-B29D-4DA3-A2DE-7F8046A2DD41</key>
+		<dict>
+			<key>from</key>
+			<string>E25DF7F3-B967-4D71-AAA0-B79D9F1FF4BB - E25DF7F3-B967-4D71-AAA0-B79D9F1FF4BB</string>
+			<key>to</key>
+			<string>E599B49E-3EC7-4CB6-BCEB-726FF5443755 - E599B49E-3EC7-4CB6-BCEB-726FF5443755</string>
+		</dict>
+	</dict>
 	<key>workflowMetaData</key>
 	<dict>
 		<key>workflowTypeIdentifier</key>
